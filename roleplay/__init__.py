@@ -7,9 +7,13 @@ import time
 # important stuff
 import os
 import itertools
+import multiprocessing
 
+# Mine
 import scanner  
 import director
+import multitask
+
 
 # get the director
 d = director.minimalDirector('imgsrc')
@@ -25,50 +29,47 @@ filesChosen = time.clock()
 form = scanner.formScanner(files[0])
 content = scanner.contentScanner(files[1])
 
-# h = form.h if (form.h > content.h) else content.h
-# w = form.w if (form.w > content.w) else content.w
+# Patch content if needed
+if(form.h > content.h):
+  # THIS COULD BE OFF BY ONE OR TWO
+  # DO SOME SIMPLE TESTS
+  l = form.h - content.h
+  print "Patching content:", l
+  patch = itertools.islice(itertools.count(),l)
+  content.rows = itertools.chain(content.rows,patch)
 
+def rowaction(r):
+  return r
 
-startLoop = time.clock()
+zipped = itertools.izip(content.rows,form.rows)
+processed = itertools.imap(rowaction,zipped)
 
-print 'Looping through scanners...'
+class Transformer:
 
-def fn(row):
-  return "pour", len(row[1]), "into",len(row[0]) 
+  def __init__(self):
+    self.counter = 0
+    self.name = "Double"
 
-zipped    = itertools.izip(content.rows,form.rows)
-processed = itertools.imap(fn,zipped)
+  def transform(self,r):
+    self.counter += 1
+    return r * 2
 
-print processed
+tfA = Transformer()
 
+# --------------------------------
+# make a test iterable
+def fn(i):
+  return i
+l = itertools.imap(fn,range(16))
+# --------------------------------
 
-endLoop = time.clock()  
+runner = multitask.Multimap(tfA,l)
 
-print "Form height:    ", form.h
-print "Content height: ", content.h
-print "Scan time:      ", endLoop - startLoop
+ # for windows stability
+if __name__ == '__main__':
+  tasks   = multiprocessing.Queue()
+  results = multiprocessing.Queue()
 
-
-
-
-
-
-
-stop = time.clock()
-
-# print "==========================================="
-# print "TIME"
-# print "Total:   ", stop - start
-# print "Choosing:", filesChosen - start
-# print "Scanners:", endLoop - startLoop
-# print 'Memory ->', resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
-
-
-
-
-
-
-
-
+  print runner(tasks, results)
 
 
