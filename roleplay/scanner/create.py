@@ -1,13 +1,14 @@
 import png
 import itertools
 import numpy
+import filters
 
 
 # The Scanner 
 # produces an iterator
 # for scanning and filtering 
 # a png one row at a time
-class Scanner:
+class NewScanner:
 
   # TODO: validation?
 
@@ -40,4 +41,8 @@ class Scanner:
       self.load()
     # return the filtered row
     return self.fltr(self.p.next())
+
+
+def formScanner(f):
+  return NewScanner(filters.formFilter,f)
 

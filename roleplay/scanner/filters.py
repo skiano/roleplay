@@ -9,18 +9,18 @@ def notzero(x):
 
 # FILTERS
 
-def formFilter:
-  pass
+def formFilter(row):
+  return "form row"
 
 # A filter that gathers color information
 # for any opaque image pixels
-def contentFilter:
-  pass
-
-
+def contentFilter(row):
+  return "content row"
 
 # filter for row
 def getrow(row):
+  # start at 4th 
+  # iterate by 4s
   alphas = row[3:][0::4]
   # for i, a in enumerate(alphas):
   #   if(a != 0):
