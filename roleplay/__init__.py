@@ -43,28 +43,8 @@ def rowaction(r):
 
 zipped = itertools.izip(content.rows,form.rows)
 processed = itertools.imap(rowaction,zipped)
-
-class Transformer:
-
-  def __init__(self):
-    self.counter = 0
-    self.name = "get Length"
-
-  def transform(self,r):
-    self.counter += 1
-    return len(r)
-
-tfA = Transformer()
+parts = itertools.tee(processed,8)
 
 
-
-runner = multitask.Multimap(tfA,processed)
-
- # for windows stability
-if __name__ == '__main__':
-  tasks   = multiprocessing.Queue()
-  results = multiprocessing.Queue()
-
-  print runner(tasks, results)
 
 
