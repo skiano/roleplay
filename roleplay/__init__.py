@@ -1,11 +1,36 @@
+# dev stuff
+import resource
+import cTimer as timer
+
+# important stuff
 import os
 import scanner  
 import director
 
-f = os.getcwd() + "/imgsrc/1280px_ZonglerjaLj_by_Sl_Ziga2.png"
-s = scanner.formScanner(f)
+print 'Memory ->', resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
 
-print s.h
+
+
+d = director.minimalDirector('imgsrc')
+
+start = timer.start()
+
+files = d.choose(2)
+
+filesChosen = timer.checkpoint()
+
+print files
+
+
+stop = timer.stop()
+
+print "Total time:", timer.diff(start, stop)
+print "Time to choose files:", timer.diff(start, filesChosen)
+
+
+# form = scanner.formScanner(f)
+# content = scanner.contentScanner(f)
+
 
 
 # d = minimalDirector('imgsrc')
@@ -13,6 +38,6 @@ print s.h
 # for f in d.choose(4):
 #   print f
 
-# import resource
-# print 'Memory ->', resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+
+
 
