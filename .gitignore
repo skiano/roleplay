@@ -1,3 +1,4 @@
 imgsrc/
 imgout/
 _data.json
+*.pyc
