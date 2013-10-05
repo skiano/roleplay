@@ -48,22 +48,17 @@ class Transformer:
 
   def __init__(self):
     self.counter = 0
-    self.name = "Double"
+    self.name = "get Length"
 
   def transform(self,r):
     self.counter += 1
-    return r * 2
+    return len(r)
 
 tfA = Transformer()
 
-# --------------------------------
-# make a test iterable
-def fn(i):
-  return i
-l = itertools.imap(fn,range(16))
-# --------------------------------
 
-runner = multitask.Multimap(tfA,l)
+
+runner = multitask.Multimap(tfA,processed)
 
  # for windows stability
 if __name__ == '__main__':
