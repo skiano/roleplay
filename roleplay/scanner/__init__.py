@@ -14,9 +14,10 @@ class NewScanner:
 
   # f should by a valid 
   # file path to a png
-  def __init__(self,fltr,f):
+  def __init__(self,fltr,f,loop):
     self.f = f
     self.fltr = fltr
+    self.loop = loop
     self.load()
 
   # Make this an iterator
@@ -35,17 +36,23 @@ class NewScanner:
   # Advance the iterator and
   # apply the filter
   def next(self):
+    self.r += 1
+
     # if the height is exceeded 
     # loop back to the beginning 
-    if(self.r >= self.h):
-      self.load()
+    if(self.r > self.h):
+      if(self.loop):
+        self.load()
+      else:
+        raise StopIteration
+    
     # return the filtered row
     return self.fltr(self.p.next())
 
 
 def formScanner(f):
-  return NewScanner(filters.formFilter,f)
+  return iter(NewScanner(filters.formFilter,f,False))
 
 def contentScanner(f):
-  return NewScanner(filters.contentFilter,f)
+  return iter(NewScanner(filters.contentFilter,f,True))
 

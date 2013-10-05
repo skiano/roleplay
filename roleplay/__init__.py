@@ -1,42 +1,84 @@
 # dev stuff
 import resource
-import cTimer as timer
+import time
+# print 'Memory ->', resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+
 
 # important stuff
 import os
+import itertools
+
 import scanner  
 import director
 
-print 'Memory ->', resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
-
-
-
+# get the director
 d = director.minimalDirector('imgsrc')
 
-start = timer.start()
+start = time.clock()
 
+# choose the files
 files = d.choose(2)
 
-filesChosen = timer.checkpoint()
+filesChosen = time.clock()
 
-print files
+# make scanners
+form = scanner.formScanner(files[0])
+content = scanner.contentScanner(files[1])
 
-
-stop = timer.stop()
-
-print "Total time:", timer.diff(start, stop)
-print "Time to choose files:", timer.diff(start, filesChosen)
-
-
-# form = scanner.formScanner(f)
-# content = scanner.contentScanner(f)
+h = form.h if (form.h > content.h) else content.h
+w = form.w if (form.w > content.w) else content.w
 
 
+startLoop = time.clock()
 
-# d = minimalDirector('imgsrc')
+print 'Looping through scanners...'
 
-# for f in d.choose(4):
-#   print f
+
+
+# for r in range(0,h):
+#   fRow = form.next()
+#   cRow = content.next()
+#   # print r, ":", len(cRow), 'fills', len(fRow)
+
+def fn(fRow):
+  cRow = content.next()
+  print "Pore", len(cRow), 'into', len(fRow)
+  return cRow
+
+print form
+
+itertools.imap(fn,form)
+
+endLoop = time.clock()
+
+
+  
+
+# print 'height', h
+
+print "Image height: ", h
+print "Scan time:    ", endLoop - startLoop
+
+
+
+
+
+
+
+stop = time.clock()
+
+# print "==========================================="
+# print "TIME"
+# print "Total:   ", stop - start
+# print "Choosing:", filesChosen - start
+# print "Scanners:", endLoop - startLoop
+# print 'Memory ->', resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+
+
+
+
+
+
 
 
 
