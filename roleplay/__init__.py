@@ -25,39 +25,28 @@ filesChosen = time.clock()
 form = scanner.formScanner(files[0])
 content = scanner.contentScanner(files[1])
 
-h = form.h if (form.h > content.h) else content.h
-w = form.w if (form.w > content.w) else content.w
+# h = form.h if (form.h > content.h) else content.h
+# w = form.w if (form.w > content.w) else content.w
 
 
 startLoop = time.clock()
 
 print 'Looping through scanners...'
 
+def fn(row):
+  return "pour", len(row[1]), "into",len(row[0]) 
+
+zipped    = itertools.izip(content.rows,form.rows)
+processed = itertools.imap(fn,zipped)
+
+print processed
 
 
-# for r in range(0,h):
-#   fRow = form.next()
-#   cRow = content.next()
-#   # print r, ":", len(cRow), 'fills', len(fRow)
+endLoop = time.clock()  
 
-def fn(fRow):
-  cRow = content.next()
-  print "Pore", len(cRow), 'into', len(fRow)
-  return cRow
-
-print form
-
-itertools.imap(fn,form)
-
-endLoop = time.clock()
-
-
-  
-
-# print 'height', h
-
-print "Image height: ", h
-print "Scan time:    ", endLoop - startLoop
+print "Form height:    ", form.h
+print "Content height: ", content.h
+print "Scan time:      ", endLoop - startLoop
 
 
 
