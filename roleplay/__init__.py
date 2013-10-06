@@ -8,6 +8,7 @@ import time
 import os
 import itertools
 import multiprocessing
+import numpy
 
 # Mine
 import scanner  
@@ -45,6 +46,8 @@ zipped = itertools.izip(content.rows,form.rows)
 processed = itertools.imap(rowaction,zipped)
 parts = itertools.tee(processed,8)
 
+arr = numpy.vstack(itertools.imap(rowaction, form.rows))
 
+print len(arr)
 
 

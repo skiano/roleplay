@@ -20,7 +20,7 @@ def getrow(row):
 # A filter that gathers information
 # about solid/void pixels in row
 def formFilter(row):
-  return getrow(row)
+  return row
 
 # A filter that gathers color information
 # for any opaque image pixels
