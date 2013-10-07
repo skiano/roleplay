@@ -1,30 +1,38 @@
-from png import Reader
-from os  import getcwd
-from os  import listdir
+from png     import Reader
+from os      import listdir, getcwd
 from os.path import isfile, join
 
+# import director classes
 
-# import directors
-import minimal
+import basic
 
 class Brain:
 
-  def __init__(self,src):
-    self.src = join(getcwd(),src)
-    self.files = [ self.getInfo(join(getcwd(),self.src,f)) 
-                     for f in listdir(self.src) 
-                     if isfile(join(self.src,f)) ]
+  # __init__()
+  # creates a list of file info dictionaries
+  # from a src directory
 
-  def getInfo(self,f):
-    r = Reader(f)
-    return {
-      'h': r.asDirect()[1],
-      'src': f
-    }
+  def __init__(self, src):
+      self.src = join(getcwd(), src)
+      self.files = [ self.getInfo( join( getcwd(), self.src, f) ) 
+                       for f in listdir(self.src) 
+                       if isfile( join( self.src, f) ) ]
 
-def minimalDirector(src):
+  # getInfo()
+  # takes a file path and
+  # transforms it into a dictionary
+  # of info
 
-  return minimal.Create(Brain(src))
+  def getInfo(self, f):
+      r = Reader(f)
+      return {
+        'h': r.asDirect()[1],
+        'src': f
+      }
 
 
-    # Director package
+def basicDirector(src):
+    # give basic a brain
+    return basic.Create( Brain(src) )
+
+
