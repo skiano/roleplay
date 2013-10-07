@@ -25,8 +25,10 @@ class Brain:
 
   def getInfo(self, f):
       r = Reader(f)
+      img = r.asDirect()
       return {
-        'h': r.asDirect()[1],
+        'h': img[1],
+        'w': img[0],
         'src': f
       }
 

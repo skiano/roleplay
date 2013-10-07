@@ -1,24 +1,40 @@
-import png
-import itertools
-import filters
+import cv2
+import numpy
+from   operator import itemgetter
+
+# The Scanner takes a pair of images
+# and makes a new image
+# using one for form and one for content
+
+class basic():
+
+  # __init__()
+  # sort the pair by height
+  # use shorter for the form
+  # use taller for the content
+
+  def __init__(self, pair):
+      self.f1, self.f2 = [ f['src'] 
+                            for f in 
+                            sorted(pair, key=itemgetter('h')) ]
+
+  def merge(self):
+      self.form = self.getForm(self.f1)
+      self.content = self.getContent(self.f2)
+
+      print self.content.shape
+      print self.form.shape
+
+  def getContent(self,f):
+      img = cv2.imread(f, cv2.CV_LOAD_IMAGE_UNCHANGED)
+      return img
+
+  def getForm(self,f):
+      img = cv2.imread(f, cv2.CV_LOAD_IMAGE_UNCHANGED)
+      img = cv2.split(img)[3] # extract alpha
+      return img
 
 
-# The Scanner 
-# produces an iterator
-# for scanning and filtering 
-# a png one row at a time
-class NewScanner:
-  # f should by a valid 
-  # file path to a png
-  def __init__(self,fltr,f):
-    img = png.Reader(f).asDirect()
-    self.h = img[0]
-    self.h = img[1]
-    self.rows = itertools.imap(fltr,img[2])
 
-def formScanner(f):
-  return NewScanner(filters.formFilter,f)
 
-def contentScanner(f):
-  return NewScanner(filters.contentFilter,f)
 
