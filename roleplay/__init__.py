@@ -17,6 +17,8 @@ d = director.basicDirector('imgsrc')
 pairs = d.choosePairs(2)
 
 s = scanner.basic(pairs[1])
+
+# print s
 s.merge()
 
 

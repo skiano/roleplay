@@ -1,5 +1,5 @@
 import cv2
-import numpy
+import numpy as np
 from   operator import itemgetter
 
 # The Scanner takes a pair of images
@@ -22,8 +22,10 @@ class basic():
       self.form = self.getForm(self.f1)
       self.content = self.getContent(self.f2)
 
-      print self.content.shape
-      print self.form.shape
+      # print self.content[0,0]
+      print np.nonzero(self.content)
+      # print self.form.nbytes
+      # print self.form[np.nonzero(self.form)]
 
   def getContent(self,f):
       img = cv2.imread(f, cv2.CV_LOAD_IMAGE_UNCHANGED)
@@ -33,6 +35,10 @@ class basic():
       img = cv2.imread(f, cv2.CV_LOAD_IMAGE_UNCHANGED)
       img = cv2.split(img)[3] # extract alpha
       return img
+
+  def test(self, a, axis):
+      # print axis
+      return np.sum(a,axis)
 
 
 
