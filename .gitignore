@@ -2,3 +2,6 @@ imgsrc/
 imgout/
 _data.json
 *.pyc
+*.jpg
+*.png
+output
