@@ -4,8 +4,11 @@ import random
 
 from math import floor
 
-def getImg(path):
-  return cv2.imread(path, cv2.IMREAD_UNCHANGED)
+def getImg(name):
+  return cv2.imread('img/' + name, cv2.IMREAD_UNCHANGED)
+
+def writeImg(name, img):
+  cv2.imwrite('output/' + name, img)
 
 def getGrayImg(img):
   return cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -41,18 +44,24 @@ def colorContour(img, contour, cIdx):
     i += 1
 
 def drawContour(img, contour):
-  cv2.drawContours(img, [contour], 0, (0,255,0), 3)
+  cv2.drawContours(img, [contour], 0, (255, 255, 255), 2)
 
-img = getImg('img/test-7.jpg')
-gray = getGrayImg(img)
-contours, hierarchy = getAllRegions(gray, 1)
+img = getImg('test-8.jpg')
+# gray = getGrayImg(img)
+# contours, hierarchy = getAllRegions(gray, 1)
 
-cIdx = 0
+contours, hierarchy = cv2.findContours(img, cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+
+# cIdx = 0
+# for c in contours:
+#   colorContour(img, c, cIdx)
+#   cIdx += 1
+
 for c in contours:
-  colorContour(img, c, cIdx)
-  cIdx += 1
+  drawContour(img, c)
 
-cv2.imwrite('output/output.jpg', img)
+
+writeImg('test2.jpg', img)
 
 
 
